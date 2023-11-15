@@ -11,7 +11,7 @@ class MovieListVM extends AppViewModel {
 
   LoadStatus _fetchFirstMovieStatus = LoadStatus.initial;
   LoadStatus _fetchNextMovieStatus = LoadStatus.initial;
-  final _movies = <MovieEntity>[];
+  var _movies = <MovieEntity>[];
   int _currentPage = 1;
 
   LoadStatus get fetchFirstMovieStatus => _fetchFirstMovieStatus;
@@ -31,8 +31,7 @@ class MovieListVM extends AppViewModel {
     notifyListeners();
     try {
       final result = await movieRepository.getMovies(page: _currentPage);
-      _movies.clear();
-      _movies.addAll(result.results);
+      _movies = result.results;
       _fetchFirstMovieStatus = LoadStatus.success;
       notifyListeners();
     } catch (e) {
@@ -42,12 +41,15 @@ class MovieListVM extends AppViewModel {
   }
 
   Future<void> fetchNextMovies() async {
+    if (_fetchNextMovieStatus == LoadStatus.loading) {
+      return;
+    }
     _fetchNextMovieStatus = LoadStatus.loading;
     notifyListeners();
     try {
       final result = await movieRepository.getMovies(page: _currentPage + 1);
       _currentPage = result.page;
-      _movies.addAll(result.results);
+      _movies += result.results;
       _fetchNextMovieStatus = LoadStatus.success;
       notifyListeners();
     } catch (e) {
