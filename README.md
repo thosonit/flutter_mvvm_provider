@@ -100,9 +100,10 @@ class MovieWidget extends StatelessWidget {
 ```
 
 ## Other rules
-* New repository should be placed in `MultiProvider` in `app.dart` . And use `context.read<T>()` to read.
+* New repository should be placed in `MultiProvider` in `app.dart` .
+* Use only `Selector` to reduce rebuild UI when ViewMode updated
 * All setup/init in ViewModel have to run after the Widget tree is created. Read it first: https://pub.dev/packages/provider.
-* Run lint and format code before commit. Run `code_linter` and fix before commit
+* Run lint and format code before commit. Run `code_linter` and fix it before commit
 * Follow the naming convention
   * Screen should have the suffix `_page`
   * Custom View should have the suffix `_widget`
