@@ -2,10 +2,10 @@ import 'package:flutter_app/common/app_view_model.dart';
 
 import 'splash_navigator.dart';
 
-class SplashViewModel extends AppViewModel {
+class SplashVM extends AppViewModel {
   final SplashNavigator navigator;
 
-  SplashViewModel({
+  SplashVM({
     required this.navigator,
   });
 
