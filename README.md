@@ -1,5 +1,5 @@
-# Flutter & Riverpod
-A flutter app using [Riverpod](https://riverpod.dev/)
+# Flutter & Provider
+A flutter app using [Provider](https://pub.dev/packages/provider)
 
 ## Checklist
 - [x] Set **AppName** & **BundleID** / **PackageName**
