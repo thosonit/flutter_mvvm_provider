@@ -18,7 +18,7 @@ class MovieListPage extends StatelessWidget {
       create: (BuildContext context) {
         return MovieListVM(
           navigator: MovieListNavigator(context: context),
-          movieRepository: context.read<MovieRepository>(),
+          movieRepo: context.read<MovieRepository>(),
         );
       },
       child: const _MoviesListChildPage(),
@@ -41,7 +41,7 @@ class _MoviesListChildPageState extends State<_MoviesListChildPage> {
     super.initState();
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MovieListVM>().fetchFirstMovies();
+      context.read<MovieListVM>().loadInitialMovies();
     });
   }
 
@@ -69,7 +69,7 @@ class _MoviesListChildPageState extends State<_MoviesListChildPage> {
             return _buildMoviesList();
         }
       },
-      selector: (_, viewModel) => viewModel.fetchFirstMovieStatus,
+      selector: (_, viewModel) => viewModel.loadInitialMoviesStatus,
     );
   }
 
@@ -90,7 +90,9 @@ class _MoviesListChildPageState extends State<_MoviesListChildPage> {
               return MovieWidget(
                 movie: movie,
                 onPressed: () {
-                  //Todo
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Clicked on ${movie.title}"),
+                  ));
                 },
               );
             },
@@ -103,38 +105,17 @@ class _MoviesListChildPageState extends State<_MoviesListChildPage> {
       },
       selector: (_, viewModel) => viewModel.movies,
     );
-    // final movies = context.read<MovieListVM>().movies;
-    // return RefreshIndicator(
-    //   onRefresh: _onRefreshData,
-    //   child: ListView.separated(
-    //     controller: _scrollController,
-    //     padding: const EdgeInsets.symmetric(horizontal: 20),
-    //     itemBuilder: (context, index) {
-    //       final movie = movies[index];
-    //       return MovieWidget(
-    //         movie: movie,
-    //         onPressed: () {
-    //           //Todo
-    //         },
-    //       );
-    //     },
-    //     itemCount: movies.length,
-    //     separatorBuilder: (BuildContext context, int index) {
-    //       return const SizedBox(height: 20);
-    //     },
-    //   ),
-    // );
   }
 
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= AppConfigs.scrollThreshold) {
-      context.read<MovieListVM>().fetchNextMovies();
+      context.read<MovieListVM>().loadMoreMovies();
     }
   }
 
   Future<void> _onRefreshData() async {
-    context.read<MovieListVM>().fetchFirstMovies();
+    context.read<MovieListVM>().loadInitialMovies();
   }
 }

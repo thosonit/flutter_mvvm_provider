@@ -1,8 +1,9 @@
-import 'package:flutter_app/common/app_view_model.dart';
+import 'package:flutter_app/common/base/base_view_model.dart';
 
 import 'splash_navigator.dart';
 
-class SplashVM extends AppViewModel {
+class SplashVM extends BaseViewModel {
+  // Navigator
   final SplashNavigator navigator;
 
   SplashVM({

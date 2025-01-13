@@ -2,7 +2,6 @@
 A flutter app using [Provider](https://pub.dev/packages/provider)
 
 ## Checklist
-- [x] Set **AppName** & **BundleID** / **PackageName**
 - [x] Models
 - [x] Networking
 - [x] Page with Provider
@@ -10,14 +9,14 @@ A flutter app using [Provider](https://pub.dev/packages/provider)
 
 ## How to use
 ### Create a page. Ex: MovieList
-movie_list_navigator.dart
+`movie_list_navigator.dart`
 ```dart
 class MovieListNavigator extends AppNavigator {
   MovieListNavigator({required BuildContext context}) : super(context: context);
 }
 ```
 
-movie_list_page.dart
+`movie_list_page.dart`
 ```dart
 class MovieListPage extends StatelessWidget {
   const MovieListPage({super.key});
@@ -28,7 +27,7 @@ class MovieListPage extends StatelessWidget {
       create: (BuildContext context) {
         return MovieListVM(
           navigator: MovieListNavigator(context: context),
-          movieRepository: context.read<MovieRepository>(),
+          movieRepo: context.read<MovieRepository>(),
         );
       },
       child: const _MoviesListChildPage(),
@@ -60,21 +59,28 @@ class _MoviesListChildPageState extends State<_MoviesListChildPage> {
 }
 ```
 
-movie_list_vm.dart
+`movie_list_vm.dart`
 ```dart
 class MovieListVM extends AppViewModel {
+  // Navigator
   final MovieListNavigator navigator;
-  final MovieRepository movieRepository;
+
+  // Repositories
+  final MovieRepository movieRepo;
+
+  // Properties
+  LoadStatus get loadInitialMoviesStatus => _loadInitialMoviesStatus;
+  LoadStatus _loadInitialMoviesStatus = LoadStatus.initial;
 
   MovieListVM({
     required this.navigator,
-    required this.movieRepository,
+    required this.movieRepo,
   });
 
-  Future<void> fetchFirstMovies() async {
+  Future<void> loadInitialMovies() async {
   }
 
-  Future<void> fetchNextMovies() async {
+  Future<void> loadMoreMovies() async {
   }
 }
 ```

@@ -1,59 +1,64 @@
-import 'package:flutter_app/common/app_view_model.dart';
+import 'package:flutter_app/common/base/base_view_model.dart';
 import 'package:flutter_app/models/entities/movie_entity.dart';
 import 'package:flutter_app/models/enums/load_status.dart';
 import 'package:flutter_app/repositories/movie_repository.dart';
 
 import 'movie_list_navigator.dart';
 
-class MovieListVM extends AppViewModel {
+class MovieListVM extends BaseViewModel {
+  // Navigator
   final MovieListNavigator navigator;
-  final MovieRepository movieRepository;
 
-  LoadStatus _fetchFirstMovieStatus = LoadStatus.initial;
-  LoadStatus _fetchNextMovieStatus = LoadStatus.initial;
-  var _movies = <MovieEntity>[];
-  int _currentPage = 1;
+  // Repositories
+  final MovieRepository movieRepo;
 
-  LoadStatus get fetchFirstMovieStatus => _fetchFirstMovieStatus;
+  // Properties
+  LoadStatus get loadInitialMoviesStatus => _loadInitialMoviesStatus;
+  LoadStatus _loadInitialMoviesStatus = LoadStatus.initial;
 
-  LoadStatus get fetchNextMovieStatus => _fetchNextMovieStatus;
+  LoadStatus get loadMoreMoviesStatus => _loadMoreMoviesStatus;
+  LoadStatus _loadMoreMoviesStatus = LoadStatus.initial;
 
   List<MovieEntity> get movies => _movies;
+  var _movies = <MovieEntity>[];
+
+  int get currentPage => _currentPage;
+  int _currentPage = 1;
 
   MovieListVM({
     required this.navigator,
-    required this.movieRepository,
+    required this.movieRepo,
   });
 
-  Future<void> fetchFirstMovies() async {
-    _fetchFirstMovieStatus = LoadStatus.loading;
+  Future<void> loadInitialMovies() async {
+    _loadInitialMoviesStatus = LoadStatus.loading;
     _currentPage = 1;
     notifyListeners();
     try {
-      final result = await movieRepository.getMovies(page: _currentPage);
+      final result = await movieRepo.getMovies(page: _currentPage);
       _movies = result.results;
-      _fetchFirstMovieStatus = LoadStatus.success;
+      _loadInitialMoviesStatus = LoadStatus.success;
       notifyListeners();
     } catch (e) {
-      _fetchFirstMovieStatus = LoadStatus.failure;
+      _loadInitialMoviesStatus = LoadStatus.failure;
       notifyListeners();
     }
   }
 
-  Future<void> fetchNextMovies() async {
-    if (_fetchNextMovieStatus == LoadStatus.loading) {
+  Future<void> loadMoreMovies() async {
+    if (_loadMoreMoviesStatus == LoadStatus.loading) {
       return;
     }
-    _fetchNextMovieStatus = LoadStatus.loading;
+    _loadMoreMoviesStatus = LoadStatus.loading;
     notifyListeners();
     try {
-      final result = await movieRepository.getMovies(page: _currentPage + 1);
+      final result = await movieRepo.getMovies(page: _currentPage + 1);
       _currentPage = result.page;
       _movies += result.results;
-      _fetchNextMovieStatus = LoadStatus.success;
+      _loadMoreMoviesStatus = LoadStatus.success;
       notifyListeners();
     } catch (e) {
-      _fetchNextMovieStatus = LoadStatus.failure;
+      _loadMoreMoviesStatus = LoadStatus.failure;
       notifyListeners();
     }
   }

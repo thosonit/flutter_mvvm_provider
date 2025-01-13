@@ -34,9 +34,9 @@ class MovieWidget extends StatelessWidget {
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                       colors: <Color>[
-                        Colors.black.withOpacity(0.8),
-                        Colors.black.withOpacity(0.2),
-                      ], // Gradien
+                        Colors.black.withValues(alpha: 0.8),
+                        Colors.black.withValues(alpha: 0.2),
+                      ],
                     ),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(10),

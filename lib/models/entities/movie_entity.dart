@@ -39,7 +39,7 @@ class MovieEntity {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   String get posterUrl {
-    return 'https://image.tmdb.org/t/p/w185${posterPath ?? ""}';
+    return 'https://image.tmdb.org/t/p/w500${posterPath ?? ""}';
   }
 
   String get posterPathUrl {
