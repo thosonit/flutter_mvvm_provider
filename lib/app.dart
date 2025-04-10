@@ -1,35 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/repositories/movie_repository.dart';
-import 'package:flutter_app/ui/pages/splash/splash_page.dart';
+import 'package:flutter_app/injection/repository_providers.dart';
 import 'package:provider/provider.dart';
 
-import 'configs/app_configs.dart';
-import 'network/api_client.dart';
-import 'network/api_util.dart';
+import 'core/configs/app_configs.dart';
+import 'navigation/app_router.dart';
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return _MyAppState();
-  }
-}
-
-class _MyAppState extends State<MyApp> {
-  late ApiClient _apiClient;
-
-  @override
-  void initState() {
-    _apiClient = ApiUtil.apiClient;
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +17,17 @@ class _MyAppState extends State<MyApp> {
     ]);
     return MultiProvider(
       providers: [
-        //Define repositories
-        Provider<MovieRepository>(
-            create: (_) => MovieRepositoryImpl(apiClient: _apiClient)),
-        //Define global ViewModels
+        ...createRepositoryProviders(),
       ],
       child: GestureDetector(
         onTap: () {
           _hideKeyboard(context);
         },
-        child: MaterialApp(
+        child: MaterialApp.router(
           title: AppConfigs.appName,
           theme: ThemeData.light(useMaterial3: true),
           themeMode: ThemeMode.light,
-          home: const SplashPage(),
+          routerConfig: AppRouter.router,
         ),
       ),
     );
