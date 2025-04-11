@@ -12,6 +12,6 @@ class SplashVM extends BaseViewModel {
 
   Future<void> checkLogin() async {
     await Future.delayed(const Duration(seconds: 2));
-    navigator.openMovieList();
+    navigator.goToMovies();
   }
 }
