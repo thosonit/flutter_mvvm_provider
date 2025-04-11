@@ -3,6 +3,7 @@ import 'package:flutter_app/data/models/entities/movie_entity.dart';
 import 'package:flutter_app/data/models/enums/load_status.dart';
 import 'package:flutter_app/data/repositories/movie_repository.dart';
 
+import '../../../core/utils/logger.dart';
 import 'movie_list_navigator.dart';
 
 class MovieListVM extends BaseViewModel {
@@ -31,35 +32,49 @@ class MovieListVM extends BaseViewModel {
   });
 
   Future<void> loadInitialMovies() async {
+    if (_loadInitialMoviesStatus == LoadStatus.loading) {
+      return; // Prevent concurrent loads
+    }
+
     _loadInitialMoviesStatus = LoadStatus.loading;
     _currentPage = 1;
     notifyListeners();
-    try {
-      final result = await movieRepo.getMovies(page: _currentPage);
-      _movies = result.results;
-      _loadInitialMoviesStatus = LoadStatus.success;
-      notifyListeners();
-    } catch (e) {
-      _loadInitialMoviesStatus = LoadStatus.failure;
-      notifyListeners();
-    }
+
+    final result = await movieRepo.getMovies(page: _currentPage);
+
+    result.fold(
+      (failure) {
+        _loadInitialMoviesStatus = LoadStatus.failure;
+        logger.e("Error loading initial movies: ${failure.message}");
+        notifyListeners();
+      },
+      (successResponse) {
+        _movies = successResponse.results;
+        _loadInitialMoviesStatus = LoadStatus.success;
+        notifyListeners();
+      },
+    );
   }
 
   Future<void> loadMoreMovies() async {
     if (_loadMoreMoviesStatus == LoadStatus.loading) {
-      return;
+      return; // Prevent concurrent loads
     }
     _loadMoreMoviesStatus = LoadStatus.loading;
     notifyListeners();
-    try {
-      final result = await movieRepo.getMovies(page: _currentPage + 1);
-      _currentPage = result.page;
-      _movies += result.results;
-      _loadMoreMoviesStatus = LoadStatus.success;
-      notifyListeners();
-    } catch (e) {
-      _loadMoreMoviesStatus = LoadStatus.failure;
-      notifyListeners();
-    }
+
+    final result = await movieRepo.getMovies(page: _currentPage + 1);
+    result.fold(
+      (failure) {
+        _loadMoreMoviesStatus = LoadStatus.failure;
+        notifyListeners();
+      },
+      (successResponse) {
+        _currentPage = successResponse.page;
+        _movies += successResponse.results;
+        _loadMoreMoviesStatus = LoadStatus.success;
+        notifyListeners();
+      },
+    );
   }
 }
