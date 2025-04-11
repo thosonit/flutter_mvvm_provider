@@ -1,3 +1,5 @@
+import 'dart:collection' show UnmodifiableListView;
+
 import 'package:flutter_app/core/base/base_view_model.dart';
 import 'package:flutter_app/data/models/entities/movie_entity.dart';
 import 'package:flutter_app/data/models/enums/load_status.dart';
@@ -20,7 +22,7 @@ class MovieListVM extends BaseViewModel {
   LoadStatus get loadMoreMoviesStatus => _loadMoreMoviesStatus;
   LoadStatus _loadMoreMoviesStatus = LoadStatus.initial;
 
-  List<MovieEntity> get movies => _movies;
+  List<MovieEntity> get movies => UnmodifiableListView(_movies);
   var _movies = <MovieEntity>[];
 
   int get currentPage => _currentPage;
@@ -76,5 +78,9 @@ class MovieListVM extends BaseViewModel {
         notifyListeners();
       },
     );
+  }
+
+  void onMovieTap(MovieEntity movie) {
+    navigator.goToMovieDetails(movieId: movie.id);
   }
 }

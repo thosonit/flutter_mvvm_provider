@@ -176,11 +176,11 @@ class MovieWidget extends StatelessWidget {
     * Screens should have the suffix `_page`.
     * Custom Views should have the suffix `_widget`.
     * Data Objects should have the suffix `_entity`.
-    * Data Lists should have the suffix `s`.
+    * Data Lists should have the suffix `List` or `s`.
 *
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) & [Git Branching](https://dev.to/couchcamote/git-branching-name-convention-cch).
 
-* Avoid using hardcoded strings; place them in the `constants` folder.
+* Avoid using hardcoded strings; place them in the `core/constants` folder.
 * Ensure all public methods and classes are documented with comments.
 * Write unit tests for all ViewModels and repositories.

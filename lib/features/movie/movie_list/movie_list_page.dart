@@ -90,9 +90,7 @@ class _MoviesListChildPageState extends State<_MoviesListChildPage> {
               return MovieWidget(
                 movie: movie,
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("Clicked on ${movie.title}"),
-                  ));
+                  context.read<MovieListVM>().onMovieTap(movie);
                 },
               );
             },
@@ -105,6 +103,13 @@ class _MoviesListChildPageState extends State<_MoviesListChildPage> {
       },
       selector: (_, viewModel) => viewModel.movies,
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll); // Remove listener first
+    _scrollController.dispose(); // Then dispose the controller
+    super.dispose();
   }
 
   void _onScroll() {

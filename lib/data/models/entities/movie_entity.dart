@@ -1,29 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'movie_entity.g.dart';
-
-@JsonSerializable()
 class MovieEntity {
-  @JsonKey()
-  int? id;
-  @JsonKey()
-  String? title;
-  @JsonKey(name: 'poster_path')
+  int id;
+  String title;
   String? posterPath;
-  @JsonKey(name: 'backdrop_path')
   String? backdropPath;
-  @JsonKey(name: 'vote_average')
   double? voteAverage;
-  @JsonKey(name: 'original_title')
   String? originalTitle;
-  @JsonKey()
   String? overview;
-  @JsonKey(name: 'release_date')
   String? releaseDate;
 
   MovieEntity({
-    this.id,
-    this.title,
+    required this.id,
+    required this.title,
     this.posterPath,
     this.backdropPath,
     this.voteAverage,
@@ -32,12 +21,32 @@ class MovieEntity {
     this.releaseDate,
   });
 
-  factory MovieEntity.fromJson(Map<String, dynamic> json) =>
-      _$MovieEntityFromJson(json);
+  factory MovieEntity.fromJson(Map<String, dynamic> json) {
+    return MovieEntity(
+      id: json['id'] as int,
+      title: json['title'] as String,
+      posterPath: json['poster_path'] as String?,
+      backdropPath: json['backdrop_path'] as String?,
+      voteAverage: (json['vote_average'] as num?)?.toDouble(),
+      originalTitle: json['original_title'] as String?,
+      overview: json['overview'] as String?,
+      releaseDate: json['release_date'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MovieEntityToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'poster_path': posterPath,
+      'backdrop_path': backdropPath,
+      'vote_average': voteAverage,
+      'original_title': originalTitle,
+      'overview': overview,
+      'release_date': releaseDate,
+    };
+  }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   String get posterUrl {
     return 'https://image.tmdb.org/t/p/w500${posterPath ?? ""}';
   }
