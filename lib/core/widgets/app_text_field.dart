@@ -46,7 +46,7 @@ class AppTextField extends StatelessWidget {
       ),
       enabledBorder: OutlineInputBorder(
         borderSide:
-            BorderSide(color: theme.colorScheme.outline.withOpacity(0.8)),
+            BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.8)),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: theme.colorScheme.primary, width: 2.0),
@@ -62,9 +62,9 @@ class AppTextField extends StatelessWidget {
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       filled: true,
-      fillColor: theme.colorScheme.surfaceVariant.withOpacity(0.3),
-      floatingLabelBehavior:
-          FloatingLabelBehavior.auto, // Hoặc .always / .never
+      fillColor:
+          theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+      floatingLabelBehavior: FloatingLabelBehavior.auto,
     );
 
     return TextFormField(
@@ -75,7 +75,6 @@ class AppTextField extends StatelessWidget {
       obscureText: obscureText,
       onChanged: onChanged,
       maxLines: obscureText ? 1 : maxLines,
-      // Mật khẩu luôn là 1 dòng
       textInputAction: textInputAction,
       focusNode: focusNode,
       autocorrect: autocorrect,

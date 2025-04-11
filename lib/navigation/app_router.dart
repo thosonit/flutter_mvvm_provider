@@ -10,7 +10,8 @@ class AppRouter {
   // --- Route Paths ---
   static const String _splashPath = '/';
   static const String _moviesPath = '/movies';
-  static const String _movieDetailPath = '/movies/:movieId';
+
+  //static const String _movieDetailPath = '/movies/:movieId';
 
   // --- Route Names ---
   static const String splashRouteName = 'splash';

@@ -30,26 +30,27 @@ class AppOutlinedButton extends StatelessWidget {
       // Màu chữ/icon khi enabled
       // Màu viền
       side: BorderSide(color: theme.colorScheme.primary, width: 1.5),
-      disabledForegroundColor: theme.colorScheme.onSurface.withOpacity(0.38),
+      disabledForegroundColor:
+          theme.colorScheme.onSurface.withValues(alpha: 0.38),
       disabledMouseCursor: SystemMouseCursors.forbidden,
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       textStyle:
           theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
     ).copyWith(
-      side: MaterialStateProperty.resolveWith<BorderSide?>(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+      side: WidgetStateProperty.resolveWith<BorderSide?>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return BorderSide(
-              color: theme.colorScheme.onSurface.withOpacity(0.12),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.12),
               width: 1.5,
             );
           }
           return BorderSide(color: theme.colorScheme.primary, width: 1.5);
         },
       ),
-      minimumSize: MaterialStateProperty.all(Size(width ?? 0, height ?? 48)),
-      maximumSize: MaterialStateProperty.all(
-          Size(width ?? double.infinity, height ?? 48)),
+      minimumSize: WidgetStateProperty.all(Size(width ?? 0, height ?? 48)),
+      maximumSize:
+          WidgetStateProperty.all(Size(width ?? double.infinity, height ?? 48)),
     );
     final buttonContent = isLoading
         ? SizedBox(

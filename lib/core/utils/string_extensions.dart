@@ -1,7 +1,7 @@
 extension StringExtensions on String {
   /// Capitalizes the first character of the string.
   String capitalize() {
-    if (this.isEmpty) return this;
+    if (isEmpty) return this;
     return this[0].toUpperCase() + substring(1);
   }
 

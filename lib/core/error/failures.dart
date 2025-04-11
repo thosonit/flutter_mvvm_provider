@@ -1,4 +1,6 @@
-import 'package:equatable/equatable.dart'; // Optional: for value equality
+import 'package:equatable/equatable.dart';
+
+import '../utils/logger.dart'; // Optional: for value equality
 
 // Base Failure class
 abstract class Failure extends Equatable {
@@ -52,7 +54,7 @@ Failure mapExceptionToFailure(dynamic e) {
   // if (e is NotFoundException) return const NotFoundFailure();
   // if (e is NetworkException) return const NetworkFailure();
 
-  print(
+  logger.e(
       "Caught unmapped exception: $e \nStackTrace: ${e is Error ? e.stackTrace : ''}");
   return UnexpectedFailure(message: e.toString());
 }

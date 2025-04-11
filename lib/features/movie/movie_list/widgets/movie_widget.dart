@@ -45,7 +45,7 @@ class MovieWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 margin: const EdgeInsets.only(top: 5),
                 child: Text(
-                  movie.title ?? '',
+                  movie.title,
                   style: theme.textTheme.labelMedium
                       ?.copyWith(color: Colors.white),
                   maxLines: 2,

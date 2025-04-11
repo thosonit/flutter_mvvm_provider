@@ -1,5 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
-
 class MovieEntity {
   int id;
   String title;

@@ -45,7 +45,7 @@ class MovieRepositoryImpl implements MovieRepository {
       // Map the exception to a specific Failure type
       // You might need more sophisticated error mapping based on exception types
       // (e.g., check for SocketException, DioError, etc.)
-      print('Error fetching detail movie $id: $e'); // Log the error
+      logger.e('Error fetching detail movie $id: $e'); // Log the error
       return Left(mapExceptionToFailure(e)); // Use helper or map directly
       // Example direct mapping:
       // return const Left(ServerFailure(message: 'Failed to fetch movie details'));

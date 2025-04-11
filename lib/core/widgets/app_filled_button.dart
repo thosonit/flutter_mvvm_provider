@@ -27,15 +27,17 @@ class AppFilledButton extends StatelessWidget {
     final defaultStyle = FilledButton.styleFrom(
       backgroundColor: theme.colorScheme.primary,
       foregroundColor: theme.colorScheme.onPrimary,
-      disabledBackgroundColor: theme.colorScheme.onSurface.withOpacity(0.12),
-      disabledForegroundColor: theme.colorScheme.onSurface.withOpacity(0.38),
+      disabledBackgroundColor:
+          theme.colorScheme.onSurface.withValues(alpha: 0.12),
+      disabledForegroundColor:
+          theme.colorScheme.onSurface.withValues(alpha: 0.38),
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       textStyle: theme.textTheme.labelLarge
           ?.copyWith(fontWeight: FontWeight.w600), // Style chữ
     ).copyWith(
-      minimumSize: MaterialStateProperty.all(Size(width ?? 0, height ?? 48)),
-      maximumSize: MaterialStateProperty.all(
-          Size(width ?? double.infinity, height ?? 48)),
+      minimumSize: WidgetStateProperty.all(Size(width ?? 0, height ?? 48)),
+      maximumSize:
+          WidgetStateProperty.all(Size(width ?? double.infinity, height ?? 48)),
     );
     final buttonContent = isLoading
         ? SizedBox(
