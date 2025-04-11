@@ -7,7 +7,8 @@ class PermissionService {
   PermissionService._privateConstructor();
 
   // Singleton instance.
-  static final PermissionService _instance = PermissionService._privateConstructor();
+  static final PermissionService _instance =
+      PermissionService._privateConstructor();
 
   // Factory constructor returns the singleton instance.
   factory PermissionService() {
