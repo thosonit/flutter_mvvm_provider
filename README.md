@@ -2,7 +2,7 @@
 
 ## Project Structure
 
-```
+```yaml
 your_flutter_project/
 ├── lib/                             # Main source code directory
 │   ├── main.dart                    # App entry point, sets up DI/Provider scope
